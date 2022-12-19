@@ -31,7 +31,8 @@ func (b *Block) calculateHash() string {
 	return encodedHash
 }
 
-func (b *Block) mineBlock(difficulty int) *Block {
+func (b *Block) mineBlock(difficulty int) {
+	b.Hash = b.calculateHash()
 	curHash := b.Hash[0:difficulty]
 
 	desiredHashBuilder := strings.Builder{}
@@ -46,11 +47,14 @@ func (b *Block) mineBlock(difficulty int) *Block {
 		curHash = b.Hash[0:difficulty]
 		b.Nonce++
 	}
-	return b
+	b.Nonce = 0
 }
 
 func (b *Block) validateBlock(difficulty int) bool {
-	return b.Hash == b.mineBlock(difficulty).Hash
+	initHash := b.Hash
+	b.mineBlock(difficulty)
+
+	return initHash == b.Hash
 }
 
 type Data struct {

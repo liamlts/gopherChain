@@ -32,7 +32,7 @@ func (bchain *Blockchain) startBlockchain() {
 	}
 	gBlock.Data = data
 
-	//TimeStamp + transactionAmount + transactionID
+	//timestamp + amount (0)
 	timeCreated := []byte(gBlock.Timestamp.String())
 	transactionAmountData := []byte(strconv.FormatInt(gBlock.Data.Amount, 10))
 
@@ -47,8 +47,8 @@ func (bchain *Blockchain) startBlockchain() {
 	bchain.LatestBlock = gBlock
 }
 
-// Adds new block to blockchain, takes in transaction amount
-func (bchain *Blockchain) newBlock(amount int64) error {
+// Adds new block to blockchain, takes in transaction amount calls mineblock to add a valid block to bchain
+func (bchain *Blockchain) newBlock(amount int64) {
 	data := &Data{
 		TransactionID: uuid.New().String(),
 		Amount:        amount,
@@ -59,12 +59,10 @@ func (bchain *Blockchain) newBlock(amount int64) error {
 		PreviousHash:  bchain.getLatestBlock().Hash,
 		Data:          data,
 	}
-
-	block.Hash = block.calculateHash()
-	block = block.mineBlock(bchain.difficulty)
-
+	//mine the block
+	block.mineBlock(bchain.difficulty)
+	//add it to the blockchain
 	bchain.LatestBlock = block
-	return nil
 }
 
 func (bchain *Blockchain) isChainValid() bool {

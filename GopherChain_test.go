@@ -27,4 +27,5 @@ func TestBlockChain(t *testing.T) {
 		t.Logf("Num: %d Block: %v\n", num, i)
 		num++
 	}
+
 }
