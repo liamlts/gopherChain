@@ -65,19 +65,20 @@ func (bchain *Blockchain) newBlock(amount int64) {
 	bchain.LatestBlock = block
 }
 
-func (bchain *Blockchain) isChainValid() bool {
+// Returns false and malicious block upon failure. Else will return true and nil
+func (bchain *Blockchain) isChainValid() (bool, *Block) {
 	curBlock := bchain.getLatestBlock()
 
 	for curBlock.PreviousBlock != nil {
 		if !curBlock.validateBlock(bchain.difficulty) {
-			return false
+			return false, curBlock
 		}
 		if curBlock.PreviousHash != curBlock.PreviousBlock.Hash {
-			return false
+			return false, curBlock
 		}
 		curBlock = curBlock.PreviousBlock
 	}
-	return true
+	return true, nil
 }
 
 func (bchain *Blockchain) getLatestBlock() *Block {
