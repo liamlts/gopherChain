@@ -1,9 +1,29 @@
+/****
+GopherChain
+2022 By: https://github.com/liamlts
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+***
+*/
+
 package gopherCoin
 
 import (
 	"bytes"
 	"crypto/sha256"
 	"fmt"
+	"math/rand"
 	"strconv"
 	"strings"
 	"time"
@@ -16,6 +36,7 @@ type Block struct {
 	Data          *Data
 	Hash          string
 	Nonce         int64
+	RandInd       int
 }
 
 func (b *Block) calculateHash() string {
@@ -33,7 +54,13 @@ func (b *Block) calculateHash() string {
 
 func (b *Block) mineBlock(difficulty int) {
 	b.Hash = b.calculateHash()
-	curHash := b.Hash[0:difficulty]
+
+	//Desired hash is (00) at random int 0-29 to 0-29+difficulty
+	if b.RandInd == 0 {
+		b.RandInd = rand.Intn(15)
+	}
+
+	curHash := b.Hash[b.RandInd : b.RandInd+difficulty]
 
 	desiredHashBuilder := strings.Builder{}
 	for i := 0; i < difficulty; i++ {
@@ -44,7 +71,7 @@ func (b *Block) mineBlock(difficulty int) {
 
 	for curHash != desiredHash {
 		b.Hash = b.calculateHash()
-		curHash = b.Hash[0:difficulty]
+		curHash = b.Hash[b.RandInd : b.RandInd+difficulty]
 		b.Nonce++
 	}
 	b.Nonce = 0
