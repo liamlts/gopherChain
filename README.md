@@ -1,9 +1,8 @@
 # GopherChain
+![gopher-coin](https://user-images.githubusercontent.com/96747965/209447321-2a4a7e87-84ef-4645-ba79-a9efc346bf69.png)
 ## About GopherChain
 * Stored in memory as linked list. 
 * Uses standard sha256 POW.
-
-![umbrella](https://user-images.githubusercontent.com/96747965/208256119-7c893083-12d3-4fc0-a0f9-ada0668d4be7.svg)
 ## Future features
 * Save to users hard drive. (JSON or binary.)
 * Wallets, miner rewards and actual transactions.
