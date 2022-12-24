@@ -1,3 +1,20 @@
+/*
+***
+GopherChain
+2022 By: https://github.com/liamlts
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+***
+*/
 package gopherCoin
 
 import (
@@ -5,7 +22,6 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -35,12 +51,11 @@ func (b *Block) mineBlock(difficulty int) {
 	b.Hash = b.calculateHash()
 	curHash := b.Hash[0:difficulty]
 
-	desiredHashBuilder := strings.Builder{}
+	desiredHashBytes := make([]byte, difficulty)
 	for i := 0; i < difficulty; i++ {
-		desiredHashBuilder.WriteString("0")
-
+		desiredHashBytes[i] = '0' //0x30
 	}
-	desiredHash := desiredHashBuilder.String()
+	desiredHash := string(desiredHashBytes)
 
 	for curHash != desiredHash {
 		b.Hash = b.calculateHash()
