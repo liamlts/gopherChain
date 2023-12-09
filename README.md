@@ -3,8 +3,3 @@
 ## About GopherChain
 * Stored in memory as linked list. 
 * Uses standard sha256 POW.
-## Future features
-* Save to users hard drive. (JSON or binary.)
-* Wallets, miner rewards and actual transactions.
-* Networking.
-* Unique POW.
